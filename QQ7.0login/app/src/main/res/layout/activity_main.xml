@@ -7,7 +7,7 @@
     tools:context="com.list.asus.qq70login.MainActivity">
 
     <SurfaceView
-        android:id="@+id/surfaceView"
+        android:id="@+id/surfaceView_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -20,16 +20,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/userId"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <EditText
+                android:id="@+id/qqNum"
+                android:hint="@string/QQnumHInt"
+                android:textColorHint="#ffffff"
+                android:textColor="#ffffff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"/>
+            <ImageButton
+                android:id="@+id/qqListIndicator"
+                android:layout_marginRight="6dp"
+                android:background="#00000000"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/down"
+                android:layout_alignBottom="@+id/qqNum"
+                android:layout_alignRight="@+id/qqNum"
+                android:layout_marginBottom="15dp"/>
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginRight="15dp"
+                android:layout_toLeftOf="@id/qqListIndicator"
+                android:src="@mipmap/ic_launcher"
+                android:visibility="gone"/>
+
+            <ListView
+                android:id="@+id/loginQQList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/qqNum"
+                android:layout_alignRight="@id/qqNum"
+                android:layout_below="@id/qqNum"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone"
+                android:divider="#aaaaaa"
+                android:dividerHeight="0px"/>
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/password"
             android:layout_marginTop="8dp"
+            android:textColor="#ffffff"
+            android:hint="@string/password"
+            android:textColorHint="#ffffff"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
 
         <Button
             android:id="@+id/login"
@@ -45,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:id="@+id/forgetPassword"
                 android:text="@string/forgetThePassword"
                 android:textColor="#2673b3"
                 android:layout_weight="1"
@@ -52,6 +97,7 @@
                 android:layout_height="wrap_content" />
 
             <TextView
+                android:id="@+id/register"
                 android:text="@string/register"
                 android:gravity="right"
                 android:textColor="#2673b3"
@@ -78,6 +124,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <TextView
+            android:id="@+id/agree"
             android:text="@string/agree"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

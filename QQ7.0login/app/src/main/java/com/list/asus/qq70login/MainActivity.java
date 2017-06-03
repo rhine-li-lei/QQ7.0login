@@ -12,26 +12,51 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
 
-    private SurfaceView surfaceview;
+    private SurfaceView sfvBackground;
     private Button btnLogin;
-    private MediaPlayer mediaPlayer;
+    private EditText edtQQnum;
+    private EditText password;
+    private TextView tvForgetPassword, tvRegister, tvAgree, tvAgreement, tvListQQnum;
+    private ImageButton ibtQQListIndicator, ibtListRemove;
+    private CircleImageView civAvatar, civListAvatar;
 
+    private MediaPlayer mediaPlayer;
     private int postion = 0;
+
+    private static boolean isVisible=false;         //ListView是否可见
+    private static boolean isIndicatorUp=false;     //指示器的方向
+
+    public static int currentSelectedPosition=-1;
+    //用于记录当前选择的ListView中的QQ联系人条目的ID，如果是-1表示没有选择任何QQ账户，注意在向
+    //List中添加条目或者删除条目时都要实时更新该currentSelectedPosition
+
+    String[] from={"userPhoto","userQQ","deletButton"};
+    int[] to={R.id.login_userPhoto,R.id.login_userQQ,R.id.login_deleteButton};
+    ArrayList<HashMap<String,Object>> list=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        findId();
         initView();
     }
 
-//沉浸式状态栏
+
+    //沉浸式状态栏
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -53,17 +78,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public int[] hideSoftByEditViewIds() {
-        int[] ids = {R.id.userId, R.id.password};
+        int[] ids = {R.id.qqNum, R.id.password};
         return ids;
     }
 
-    private void initView() {
-        surfaceview = (SurfaceView) findViewById(R.id.surfaceView);
-        btnLogin = (Button) findViewById(R.id.login);
 
+    private void findId() {
+        sfvBackground = (SurfaceView) findViewById(R.id.surfaceView_background);
+        btnLogin = (Button) findViewById(R.id.login);
+        edtQQnum = (EditText) findViewById(R.id.qqNum);
+        password = (EditText) findViewById(R.id.password);
+        tvForgetPassword = (TextView) findViewById(R.id.forgetPassword);
+        tvRegister = (TextView) findViewById(R.id.register);
+        tvAgree = (TextView) findViewById(R.id.agree);
+        tvAgreement = (TextView) findViewById(R.id.agreement);
+        tvListQQnum = (TextView) findViewById(R.id.login_userQQ);
+        ibtQQListIndicator = (ImageButton) findViewById(R.id.qqListIndicator);
+        ibtListRemove = (ImageButton) findViewById(R.id.login_deleteButton);
+        civAvatar = (CircleImageView) findViewById(R.id.avatar);
+        civListAvatar = (CircleImageView) findViewById(R.id.login_userPhoto);
+
+    }
+
+    private void initView() {
         mediaPlayer = new MediaPlayer();
-        surfaceview.getHolder().setKeepScreenOn(true);
-        surfaceview.getHolder().addCallback(new SurfaceViewLis());
+        sfvBackground.getHolder().setKeepScreenOn(true);
+        sfvBackground.getHolder().addCallback(new SurfaceViewLis());
         btnLogin.setOnClickListener(this);
     }
 
@@ -108,7 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(),
                 fd.getLength());
         mediaPlayer.setLooping(true);
-        mediaPlayer.setDisplay(surfaceview.getHolder());
+        mediaPlayer.setDisplay(sfvBackground.getHolder());
         // 通过异步的方式装载媒体资源
         mediaPlayer.prepareAsync();
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
