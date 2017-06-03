@@ -6,7 +6,6 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener{
 
     private SurfaceView surfaceview;
     private Button btnLogin;
@@ -52,6 +51,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 }
 
+    @Override
+    public int[] hideSoftByEditViewIds() {
+        int[] ids = {R.id.userId, R.id.password};
+        return ids;
+    }
+
     private void initView() {
         surfaceview = (SurfaceView) findViewById(R.id.surfaceView);
         btnLogin = (Button) findViewById(R.id.login);
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         surfaceview.getHolder().addCallback(new SurfaceViewLis());
         btnLogin.setOnClickListener(this);
     }
+
 
     private class SurfaceViewLis implements SurfaceHolder.Callback {
         @Override
