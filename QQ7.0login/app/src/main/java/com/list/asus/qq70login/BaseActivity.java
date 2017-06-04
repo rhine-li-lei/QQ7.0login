@@ -1,18 +1,26 @@
 package com.list.asus.qq70login;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import com.list.asus.qq70login.utils.KeyBoardUtils;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
  * Created by ASUS on 2017/6/4.
  */
 
 public class BaseActivity extends AppCompatActivity {
-//region软键盘的处理
+
+
+    //region软键盘的处理
 
     /**
      * 清除editText的焦点
@@ -107,5 +115,7 @@ public class BaseActivity extends AppCompatActivity {
     public View[] filterViewByIds() {
         return null;
     }
+
+
 
 }
