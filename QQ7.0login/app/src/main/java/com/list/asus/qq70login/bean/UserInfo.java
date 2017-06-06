@@ -11,6 +11,7 @@ import static android.R.id.list;
 public class UserInfo {
     private int avatar;
     private String qqNum;
+    private String password;
     private int delete;
 
     public int getAvatar() {
@@ -27,6 +28,14 @@ public class UserInfo {
 
     public void setDelete(int delete) {
         this.delete = delete;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getQqNum() {

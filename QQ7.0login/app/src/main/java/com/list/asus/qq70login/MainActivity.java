@@ -14,11 +14,9 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,19 +24,19 @@ import com.list.asus.qq70login.bean.UserInfo;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener{
+public class MainActivity extends BaseActivity implements View.OnClickListener
+                                    , OnThisItemClickListener {
 
     private SurfaceView sfvBackground;
     private Button btnLogin;
     private EditText edtQQnum;
     private EditText password;
-    private TextView tvForgetPassword, tvRegister, tvAgree, tvAgreement, tvListQQnum;
-    private ImageButton ibtQQListIndicator, ibtDelete, ibtListDelete;
-    private CircleImageView civAvatar, civListAvatar;
+    private TextView tvForgetPassword, tvRegister, tvAgree, tvAgreement;
+    private ImageButton ibtQQListIndicator, ibtDelete;
+    private CircleImageView civAvatar;
     RecyclerView recLogin;
 
     ArrayList<UserInfo> loginQQList = null;
@@ -96,13 +94,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         tvForgetPassword = (TextView) findViewById(R.id.forgetPassword);
         tvRegister = (TextView) findViewById(R.id.register);
         tvAgreement = (TextView) findViewById(R.id.agreement);
-        tvListQQnum = (TextView) findViewById(R.id.login_userQQ);
         tvAgree = (TextView) findViewById(R.id.agree);
         ibtQQListIndicator = (ImageButton) findViewById(R.id.qqListIndicator);
-        ibtListDelete = (ImageButton) findViewById(R.id.login_deleteButton);
         ibtDelete = (ImageButton) findViewById(R.id.delete);
         civAvatar = (CircleImageView) findViewById(R.id.avatar);
-        civListAvatar = (CircleImageView) findViewById(R.id.login_userPhoto);
         recLogin=(RecyclerView) findViewById(R.id.rec_loginQQ);
     }
 
@@ -125,9 +120,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         UserInfo user1=new UserInfo();
         user1.setAvatar(R.drawable.contact_0);
         user1.setQqNum("123456");
+        user1.setPassword("123456");
         UserInfo user2=new UserInfo();
         user2.setAvatar(R.drawable.contact_1);
         user2.setQqNum("3153135");
+        user2.setPassword("3153135");
         loginQQList.add(user1);
         loginQQList.add(user2);
 
@@ -135,6 +132,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recLogin.setLayoutManager(layoutManager);
         MyLoginListAdapter adapter = new MyLoginListAdapter(loginQQList);
+        adapter.setOnItemClickListener(this);   //设置点击事件的监听者
         recLogin.setAdapter(adapter);
 
 
@@ -146,8 +144,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
             civAvatar.setImageResource(loginQQList.get(currentSelectedPosition).getAvatar());
             edtQQnum.setText(loginQQList.get(currentSelectedPosition).getQqNum());
         }
-
     }
+
 
     private class SurfaceViewLis implements SurfaceHolder.Callback {
         @Override
@@ -237,6 +235,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 edtQQnum.setText("");
                 currentSelectedPosition=-1;
                 ibtDelete.setVisibility(View.GONE);
+                civAvatar.setVisibility(View.GONE);
                 break;
             //登陆过的list列表的点开图标
             case R.id.qqListIndicator:
@@ -283,7 +282,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
                 isIndicatorUp = false;
                 isVisible = false;
                 ibtQQListIndicator.setBackgroundResource(R.drawable.down);
-                recLogin.setVisibility(View.GONE);   //让ListView列表消失，并且让游标向下指！
+                recLogin.setVisibility(View.GONE);   //让recyclerView列表消失，并且让游标向下指！
                 password.setVisibility(View.VISIBLE);
                 btnLogin.setVisibility(View.VISIBLE);
                 tvForgetPassword.setVisibility(View.VISIBLE);
@@ -293,4 +292,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         }
         return super.onTouchEvent(event);
     }
+
+
+    @Override
+    public void onItemClicked(int position) {
+        isIndicatorUp = false;
+        isVisible = false;
+        ibtQQListIndicator.setBackgroundResource(R.drawable.down);
+        recLogin.setVisibility(View.GONE);   //让recyclerView列表消失，并且让游标向下指！
+        password.setVisibility(View.VISIBLE);
+        btnLogin.setVisibility(View.VISIBLE);
+        tvForgetPassword.setVisibility(View.VISIBLE);
+        tvRegister.setVisibility(View.VISIBLE);
+        tvAgree.setVisibility(View.VISIBLE);
+        edtQQnum.setText(loginQQList.get(position).getQqNum().toString());
+        civAvatar.setVisibility(View.VISIBLE);
+        civAvatar.setImageResource(loginQQList.get(position).getAvatar());
+        password.setText(loginQQList.get(position).getPassword());
+    }
+
 }

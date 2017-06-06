@@ -13,7 +13,18 @@
 ![](http://jycloud.9uads.com/web/GetObject.aspx?filekey=716ac7a494c2f4fb95a17f3c8ee3a950)
 
 ### 2.0
-	增加recyclerview合成的下拉列表和各个子布局的点击事件
+	增加recyclerview合成的下拉列表
     增加softKeyBoard
     各类的点击事件
     沉浸式状态栏的多种实现以及透明状态栏
+    
+    
+### 3.0
+* 新增recyclerView下来列表的点击事件，即删除与把QQ号和密码填充到指定的EditText中
+* 滑动事件的优化
+贴几张运行图：
+![](http://jycloud.9uads.com/web/GetObject.aspx?filekey=122fac6d55dac8d36647bd851925b33c)
+
+![](http://jycloud.9uads.com/web/GetObject.aspx?filekey=1a98d2de7cc7317de682cba31afe9921)
+
+![](http://jycloud.9uads.com/web/GetObject.aspx?filekey=d393116a174e463d3cca7c8d1866c9fc)
